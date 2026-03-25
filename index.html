@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>QR Code Generator</title>
+
+<!-- Google Font -->
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;500;700&display=swap" rel="stylesheet">
+
+<!-- QR Library -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Poppins', sans-serif;
+}
+
+body{
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+    color:white;
+}
+
+.container{
+    background:#111;
+    padding:30px;
+    border-radius:20px;
+    text-align:center;
+    width:350px;
+    box-shadow:0 0 25px rgba(0,0,0,0.5);
+}
+
+h1{
+    margin-bottom:20px;
+    font-weight:700;
+}
+
+input{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    outline:none;
+    margin-bottom:15px;
+    font-size:14px;
+}
+
+button{
+    width:100%;
+    padding:12px;
+    border:none;
+    border-radius:10px;
+    background:#00c6ff;
+    color:white;
+    font-size:16px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+button:hover{
+    background:#0072ff;
+}
+
+#qrcode{
+    margin-top:20px;
+    padding:10px;
+    background:white;
+    display:inline-block;
+    border-radius:10px;
+}
+
+.download-btn{
+    margin-top:15px;
+    background:#28a745;
+}
+
+.download-btn:hover{
+    background:#218838;
+}
+
+.footer{
+    margin-top:15px;
+    font-size:12px;
+    opacity:0.6;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+    <h1>QR Generator</h1>
+
+    <input type="text" id="url" placeholder="Enter your link...">
+
+    <button onclick="generateQR()">Generate QR Code</button>
+
+    <div id="qrcode"></div>
+
+    <button class="download-btn" onclick="downloadQR()">Download QR</button>
+
+    <div class="footer">
+        Made by Omar 🚀
+    </div>
+</div>
+
+<script>
+let qr;
+
+function generateQR(){
+    let url = document.getElementById("url").value;
+
+    if(url === ""){
+        alert("Please enter a link!");
+        return;
+    }
+
+    document.getElementById("qrcode").innerHTML = "";
+
+    qr = new QRCode(document.getElementById("qrcode"), {
+        text: url,
+        width: 200,
+        height: 200
+    });
+}
+
+function downloadQR(){
+    let img = document.querySelector("#qrcode img");
+
+    if(!img){
+        alert("Generate QR first!");
+        return;
+    }
+
+    let link = document.createElement("a");
+    link.href = img.src;
+    link.download = "qr-code.png";
+    link.click();
+}
+</script>
+
+</body>
+</html>
